@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: job-service
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/testing
+    username: root
+    password: root
+
+#  jpa:
+#    hibernate:
+#      ddl-auto: create
+    
+server:
+  port: 8050
+  
+  servlet:
+    context-path: /job-service/api
