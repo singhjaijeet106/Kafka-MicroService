@@ -12,11 +12,14 @@ public class ReviewRepositoryImpl {
 	@Autowired
 	private ReviewMongoRepository repository;
 	
+	public Review createNewReview(Review review) {
+		return repository.save(review);
+	}
+	
 	public Review getReviewByReviewId(String reviewId) {
 		Review review = repository.findById(reviewId).orElse(null);
 		return review;
 	}
-	
 	
 	public List<Review> getAllReviewsList(){
 		return repository.findAll();

@@ -11,3 +11,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+      
+server:
+  port: 8060
+      
+  servlet:
+    context-path: /company-service/api

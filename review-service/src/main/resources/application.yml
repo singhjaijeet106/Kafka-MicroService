@@ -6,3 +6,9 @@ spring:
   mongodb:
    uri: mongodb://localhost:27017
    database: microservice
+   
+server:
+  port: 8070
+      
+  servlet:
+    context-path: /review-service/api   
