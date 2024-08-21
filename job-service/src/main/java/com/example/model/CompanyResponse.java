@@ -11,12 +11,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class JobResponse {
+public class CompanyResponse {
 	private String id;
-	private String title;
+	private String name;
 	private String description;
-	private Long minSalary;
-	private Long maxSalary;
-	private String location;
-	private CompanyResponse company;
 }

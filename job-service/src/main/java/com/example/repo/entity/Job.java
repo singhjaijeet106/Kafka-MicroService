@@ -3,6 +3,7 @@ package com.example.repo.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,4 +25,6 @@ public class Job {
 	private Long minSalary;
 	private Long maxSalary;
 	private String location;
+	@Transient
+	private String companyId;
 }

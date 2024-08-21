@@ -23,6 +23,7 @@ public class JobService {
 	
 	public JobResponse getJobsById(String jobId){
 		JobResponse jobResponse = jobRepository.getJobResponseByJobId(jobId);
+		
 		return jobResponse;
 	}
 	
