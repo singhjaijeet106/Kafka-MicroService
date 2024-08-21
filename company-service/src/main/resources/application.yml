@@ -1,24 +1,24 @@
 spring:
   application:
     name: company-service
-    
+
   datasource:
     url: jdbc:postgresql://localhost:5432/testing
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: 654321
-    
+
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: create
-      
+
 server:
   port: 8060
-      
+
   servlet:
     context-path: /company-service/api
-    
+
 eureka:
   client:
     register-with-eureka: true

@@ -1,15 +1,15 @@
 spring:
- application:
-  name: review-service
+  application:
+    name: review-service
 
- data:
-  mongodb:
-   uri: mongodb://localhost:27017
-   database: microservice
-   
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017
+      database: microservice 
+
 server:
   port: 8070
-      
+
   servlet:
     context-path: /review-service/api
     

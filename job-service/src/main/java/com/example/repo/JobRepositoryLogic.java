@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.example.model.CompanyResponse;
 import com.example.model.JobResponse;
 import com.example.repo.entity.Job;
 
@@ -18,14 +19,14 @@ public class JobRepositoryLogic {
 	@Autowired
 	private JobRepository jobRepository;
 
-//	@Autowired
-//	EntityManager entityManager;
 
 	public JobResponse getJobResponseByJobId(String id) {
-
+		
 		Job job = jobRepository.findById(id).get();
+		CompanyResponse companyResponse = CompanyResponse.builder().id(job.getCompanyId()).build();
 		JobResponse jobResponse = JobResponse.builder().id(job.getId()).title(job.getTitle())
 				.description(job.getDescription()).maxSalary(job.getMaxSalary()).minSalary(job.getMinSalary())
+				.company(companyResponse)
 				.location(job.getLocation()).build();
 
 		return jobResponse;
@@ -41,9 +42,8 @@ public class JobRepositoryLogic {
 
 	public JobResponse saveJobDetails(JobResponse jobResponse) {
 		String jobId = UUID.randomUUID().toString();
-		Job job = Job.builder().id(jobId).title(jobResponse.getTitle())
-				.description(jobResponse.getDescription()).maxSalary(jobResponse.getMaxSalary())
-				.minSalary(jobResponse.getMinSalary()).location(jobResponse.getLocation()).build();
+		jobResponse.setId(jobId);
+		Job job = convertJobResponseToJob(jobResponse);
 		job = jobRepository.save(job);
 		jobResponse.setId(jobId);
 		return jobResponse;
@@ -89,14 +89,17 @@ public class JobRepositoryLogic {
 	}
 	
 	private JobResponse convertJobToJobResponse(Job job) {
+		CompanyResponse companyResponse = CompanyResponse.builder().id(job.getCompanyId()).build();
 		return JobResponse.builder().id(job.getId()).title(job.getTitle())
-				.description(job.getDescription()).maxSalary(job.getMaxSalary()).minSalary(job.getMinSalary())
+				.description(job.getDescription()).maxSalary(job.getMaxSalary()).minSalary(job.getMinSalary()).company(companyResponse)
 				.location(job.getLocation()).build();
 	}
 	
 	private Job convertJobResponseToJob(JobResponse job) {
 		return Job.builder().id(job.getId()).title(job.getTitle())
 				.description(job.getDescription()).maxSalary(job.getMaxSalary()).minSalary(job.getMinSalary())
-				.location(job.getLocation()).build();
+				.location(job.getLocation())
+				.companyId(job.getCompany().getId())
+				.build();
 	}
 }

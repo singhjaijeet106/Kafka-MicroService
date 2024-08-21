@@ -25,6 +25,5 @@ public class Job {
 	private Long minSalary;
 	private Long maxSalary;
 	private String location;
-	@Transient
 	private String companyId;
 }
