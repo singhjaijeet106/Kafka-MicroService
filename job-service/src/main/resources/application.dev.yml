@@ -7,9 +7,12 @@ spring:
     username: root
     password: root
 
-#  jpa:
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
 #    hibernate:
 #      ddl-auto: create
+
     
 server:
   port: 8050
@@ -20,6 +23,6 @@ server:
 eureka:
   client:
     register-with-eureka: true
-    fetch-registry: true       
+    fetch-registry: true
     service-url:
       defaultZone: http://discovery-service:8761/eureka/    

@@ -1,0 +1,91 @@
+version: "3"
+networks:
+  mysql-network:
+    driver: bridge
+  mongo-network:
+    driver: bridge
+  postgres-network:
+    driver: bridge
+  application-network:
+    driver: bridge
+
+services:
+  mysqlDB:
+    image: mysql:5.7.43
+    environment:
+      MYSQL_DATABASE: "testing"
+      MYSQL_USER: "user"
+      MYSQL_PASSWORD: "654321"
+      MYSQL_ROOT_PASSWORD: "root"
+    ports:
+      - 3306:3306
+    volumes:
+      - ./sql/Job.sql:/docker-entrypoint-initdb.d/0_init.sql
+    networks:
+      - mysql-network
+
+  mongoDB:
+    image: mongo:4.4.29
+    ports:
+      - 27017:27017
+    networks:
+      - mongo-network
+    environment:
+      - MONGO_INITDB_DATABASE=microservice
+
+  postgresDBserv:
+    image: postgres:16.4-alpine
+    environment:
+      - POSTGRES_PASSWORD=654321
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=testing
+    volumes:
+      - ./sql/Company.sql:/docker-entrypoint-initdb.d/Company.sql
+    ports:
+      - 5432:5432
+    networks:
+      - postgres-network
+
+  job-service:
+    build: ./job-service
+    image: job-service-image
+    ports:
+      - 8050:8050
+    networks:
+      - application-network
+      - mysql-network
+    depends_on:
+      - discovery-service
+
+  company-service:
+    build: ./company-service
+    image: company-service-image
+    ports:
+      - 8060:8060
+    networks:
+      - application-network
+      - postgres-network
+
+  review-service:
+    build: ./review-service
+    image: review-service-image
+    ports:
+      - 8070:8070
+    networks:
+      - application-network
+      - mongo-network
+
+  discovery-service:
+    build: ./discovery-service
+    image: discovery-image
+    networks:
+      - application-network
+      - mongo-network
+      - postgres-network
+      - mysql-network
+    ports:
+      - 8761:8761
+    depends_on:
+      - mysqlDB
+      - postgresDBserv
+      - mongoDB
